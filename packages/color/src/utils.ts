@@ -137,7 +137,7 @@ const colorUtils = {
       }
       hexStr = arr.join("");
     }
-    console.log('hexStr', hexStr)
+    // console.log('hexStr', hexStr)
     for (let i = 0; i < hexStr.length; i+= 2) {
       result.push(parseInt(`0x${hexStr.slice(i, i + 2)}`));
     }

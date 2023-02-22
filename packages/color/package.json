@@ -1,8 +1,8 @@
 {
   "name": "@code/color",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "颜色转换",
-  "author": "coderlyu <974257574@qq.com>",
+  "author": "coderly <974257574@qq.com>",
   "homepage": "",
   "license": "ISC",
   "main": "lib/index.cjs.js",

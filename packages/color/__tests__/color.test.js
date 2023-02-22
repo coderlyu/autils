@@ -47,6 +47,11 @@ describe('[@au/color]: 基本功能测试', () => {
       done()
     })
   })
+  it('test toRgba alpha', () => {
+    const color = createColor(baseColor)
+    const toColor = color.toRgba(0.8)
+    expect(toColor).equal('rgba(240, 241, 242, 0.8)')
+  })
   it('test toRgba methods', () => {
     const color = createColor(baseColor)
     const toColor = color.toRgba('#757575')

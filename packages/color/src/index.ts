@@ -31,8 +31,16 @@ class aColor {
     const value = colorUtils.anyToRgb(color || this.color);
     return value
   }
-  toRgba(color = "") {
-    return this.toCss(color, colorUtils.RegMap.RGBA);
+  toRgba(color?: string | number, alpha?: number) {
+    if(typeof color === 'number') {
+      alpha = color
+      color = this.color
+    }
+    const { value } = this.anyToRgbArray(color);
+    if(alpha && value.length >=2) {
+      value[3] = alpha
+    }
+    return colorUtils.rgbToAny(colorUtils.RegMap.RGBA, ...value);
   }
   toHex(color = "") {
     return this.toCss(color, colorUtils.RegMap.HEX);
@@ -43,7 +51,7 @@ class aColor {
   toHsl(color = "") {
     return this.toCss(color, colorUtils.RegMap.HSL);
   }
-  toCss(color = "", toType?: RegMap) {
+  toCss(color = "", toType?: RegMap, alpha?: number) {
     const { value, type } = this.anyToRgbArray(color);
     return colorUtils.rgbToAny(toType || type, ...value);
   }

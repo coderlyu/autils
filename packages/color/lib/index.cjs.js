@@ -300,7 +300,7 @@ const colorUtils = {
             }
             hexStr = arr.join("");
         }
-        console.log('hexStr', hexStr);
+        // console.log('hexStr', hexStr)
         for (let i = 0; i < hexStr.length; i += 2) {
             result.push(parseInt(`0x${hexStr.slice(i, i + 2)}`));
         }
@@ -400,8 +400,16 @@ class aColor {
         const value = colorUtils.anyToRgb(color || this.color);
         return value;
     }
-    toRgba(color = "") {
-        return this.toCss(color, colorUtils.RegMap.RGBA);
+    toRgba(color, alpha) {
+        if (typeof color === 'number') {
+            alpha = color;
+            color = this.color;
+        }
+        const { value } = this.anyToRgbArray(color);
+        if (alpha && value.length >= 2) {
+            value[3] = alpha;
+        }
+        return colorUtils.rgbToAny(colorUtils.RegMap.RGBA, ...value);
     }
     toHex(color = "") {
         return this.toCss(color, colorUtils.RegMap.HEX);
@@ -412,7 +420,7 @@ class aColor {
     toHsl(color = "") {
         return this.toCss(color, colorUtils.RegMap.HSL);
     }
-    toCss(color = "", toType) {
+    toCss(color = "", toType, alpha) {
         const { value, type } = this.anyToRgbArray(color);
         return colorUtils.rgbToAny(toType || type, ...value);
     }
