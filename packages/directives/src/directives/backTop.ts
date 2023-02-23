@@ -1,12 +1,12 @@
 import { Binding } from "../types";
-let handleBackTopClick: EventListenerOrEventListenerObject |null = null;
-let handleBackTopScroll: EventListenerOrEventListenerObject | null = null
+const symbolClickKey = Symbol('handleBackTopClick')
+const symbolScrollKey = Symbol('handleBackTopScroll')
 export const backTop = {
-  bind(el: HTMLElement, binding: Binding) {
+  bind(el: HTMLElement & { [symbolClickKey]: any }, binding: Binding) {
     // if(isObject(binding.value)) {
     //   const {} = binding.value || {}
     // }
-    handleBackTopClick = () => {
+    const callback = el[symbolClickKey] = () => {
       const target = binding.arg
         ? document.getElementById(binding.arg)
         : window;
@@ -16,14 +16,14 @@ export const backTop = {
           behavior: "smooth",
         });
     };
-    el.addEventListener("click", handleBackTopClick);
+    el.addEventListener("click", callback);
   },
-  update(el: HTMLElement, binding: Binding) {
+  update(el: HTMLElement & { [symbolScrollKey]: any}, binding: Binding) {
     // 滚动到达参数值才出现绑定指令的元素
     const target = binding.arg ? document.getElementById(binding.arg) : window;
     if (target) {
       if (binding.value) {
-        handleBackTopScroll = ((e: HTMLElement| Window) => {
+        const callback = el[symbolScrollKey] = ((e: HTMLElement| Window) => {
           const scrollTop = (e as HTMLElement).scrollTop || (e as Window).scrollY
           if (scrollTop > binding.value) {
             el.style.visibility = "unset";
@@ -31,7 +31,7 @@ export const backTop = {
             el.style.visibility = "hidden";
           }
         }) as unknown as EventListenerOrEventListenerObject
-        target.addEventListener("scroll", handleBackTopScroll);
+        target.addEventListener("scroll", callback);
       }
       // 判断初始化状态
       if (((target as HTMLElement).scrollTop || (target as Window).scrollY) < binding.value) {
@@ -39,11 +39,13 @@ export const backTop = {
       }
     }
   },
-  unbind(el: HTMLElement, binding: Binding) {
+  unbind(el: HTMLElement&{[symbolClickKey]: any, [symbolScrollKey]: any}, binding: Binding) {
     const target = binding.arg ? document.getElementById(binding.arg) : window;
     if (target) {
-      handleBackTopScroll && target.removeEventListener("scroll", handleBackTopScroll);
-      handleBackTopClick && el.removeEventListener("click", handleBackTopClick);
+      if(el[symbolScrollKey]) 
+        target.removeEventListener("scroll", el[symbolScrollKey])
+      
+      if(el[symbolClickKey]) el.removeEventListener("click", el[symbolClickKey]);
     }
   },
 };

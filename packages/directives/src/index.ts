@@ -45,7 +45,7 @@ const compatibleToVue3 = (_directives: Record<string, any>, Vue: any): Record<st
 const useDirectives = (App: any) => {
   const _directives = compatibleToVue3(directives, App)
   for (const [key, value] of Object.entries(_directives)) {
-    App.use(key, value)
+    App.directive(key, value)
   }
 }
 export default useDirectives

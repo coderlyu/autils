@@ -1,7 +1,5 @@
 # `directive`
 > vue 自定义指令，区分vue2， vue3
-> TODO: description
-
 
 ## Usage
 
@@ -28,3 +26,16 @@ const directive = require('directive');
 6. componentUpdated → updated
 7. beforeUnmount: **新增**！与组件的生命周期钩子类似，它将在元素被卸载之前调用
 8. unbind -> unmounted
+
+## TODO
+
+|   属性名   |    描述    |
+| --------- | ------------------- |
+| mask | 元素上添加蒙层 |
+| focus | 元素聚焦 |
+|  blur | 元素失焦点 |
+| copy | 复制内容 |
+| backTop | 回到顶部 |
+| debounce | 防抖 |
+| throttle | 节流 |
+| xx | 展开收起 |

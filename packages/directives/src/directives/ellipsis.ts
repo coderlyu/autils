@@ -1,4 +1,4 @@
-import { Binding } from "./types";
+import { Binding } from "../types";
 // 文本超出省略
 export const ellipsis = {
   bind(el: HTMLElement, binding: Binding) {

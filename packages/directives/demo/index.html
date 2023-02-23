@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="wrap">
+      <button id="add">点击事件</button>
+    </div>
+    <div id="root">
+      <p>{{time}}</p>
+      <button @click="add" v-throttle="1000">点我</button>
+      <button v-if="time>=0" @click="add2" v-debounce="1000">点我22</button>
+      <Item @click.native="add" />
+    </div>
+    <script src="./vue.js"></script>
+    <script src="../lib/index.umd.js"></script>
+    <script>
+      Vue.use(directives);
+      const app = new Vue({
+        el: "#root",
+        components: {
+          Item: {
+            template: `<div>{{msg}} <button v-debounce @click="clickItem">修改</button> </div>`,
+            data() {
+              return {
+                msg: 'before'
+              }
+            },
+            methods: {
+              clickItem() {
+                this.msg = '哈哈哈哈哈'
+              }
+            }
+          }
+        },
+        data() {
+          return {
+            time: 0,
+            timer: null,
+          };
+        },
+        methods: {
+          add() {
+            this.time++;
+          },
+          add2() {
+            this.time--;
+          },
+        },
+      });
+    </script>
+    <script>
+      const wrap = document.getElementById("wrap");
+      const add = document.getElementById("add");
+      wrap.addEventListener("click", () => {
+        var ev = ev || window.event;
+        var target = ev.target || ev.srcElement;
+        console.log('target', target)
+        
+      });
+      add.addEventListener('click', () => {
+        console.log('add --- listen')
+      })
+    </script>
+  </body>
+</html>
